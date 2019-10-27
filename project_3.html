@@ -73,6 +73,13 @@
       var levelTwoObjectTwo;
       var levelTwoObjectThree;
       var levelTwoText;
+        
+      var moveLevelThreeObjects;
+      var levelThreeObjectOne;
+      var levelThreeObjectTwo;
+      var levelThreeObjectThree;
+      var levelThreeObjectFour;
+      var levelThreeText;
       
       // Set the game state
       state = play;
@@ -237,6 +244,38 @@
                   levelTwoObjectOne.position.set( 5, 50 );
                   levelTwoObjectTwo.position.set( 350, 200 );
                   levelTwoObjectThree.position.set( 175, 70 );
+              }
+          }
+          
+          else if ( moveLevelThreeObjects )
+          {   
+              checkCollision( jellyfish, levelThreeObjectOne );
+              checkCollision( jellyfish, levelThreeObjectTwo );
+              checkCollision( jellyfish, levelThreeObjectThree );
+              checkCollision( jellyfish, levelThreeObjectFour );
+              checkDoor( level, jellyfish, door );
+              
+              if ( levelThreeObjectOne.x <= 350 && levelThreeObjectTwo.x >= 5 )
+              {
+                levelThreeObjectOne.vx = 3;
+                levelThreeObjectOne.x += levelThreeObjectOne.vx;
+                
+                levelThreeObjectTwo.vx = -3;
+                levelThreeObjectTwo.x += levelThreeObjectTwo.vx;
+                  
+                levelThreeObjectThree.vx = 3;
+                levelThreeObjectThree.x += levelThreeObjectThree.vx;
+                  
+                levelThreeObjectFour.vx = -3;
+                levelThreeObjectFour.x += levelThreeObjectFour.vx;
+              }
+            
+              else
+              {
+                  levelThreeObjectOne.position.set( 5, 50 );
+                  levelThreeObjectTwo.position.set( 350, 200 );
+                  levelThreeObjectThree.position.set( 5, 130 );
+                  levelThreeObjectFour.position.set( 350, 270 );
               }
           }
       }
@@ -432,12 +471,58 @@
           app.stage.removeChild( levelTwoObjectThree );
           app.stage.removeChild( jellyfish );
           
-          // Level two text
+          // Level three text
           levelThreeText = new PIXI.Text( 'LEVEL 3', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff } );
 
           // Position it and add it to the stage
           levelThreeText.position.set( 10, 10 );
           app.stage.addChild( levelThreeText );
+          
+          // Resets jellyfish
+          jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
+          jellyfish.position.set( 170, 300 );
+          app.stage.addChild( jellyfish );
+          
+          levelThreeObjectOne = new Sprite( resources[ "mover.png" ].texture );          
+          levelThreeObjectOne.position.set( 5, 50 );
+          app.stage.addChild( levelThreeObjectOne );
+        
+          levelThreeObjectTwo = new Sprite( resources[ "mover.png" ].texture );          
+          levelThreeObjectTwo.position.set( 350, 200 );
+          app.stage.addChild( levelThreeObjectTwo );
+          
+          levelThreeObjectFour = new Sprite( resources[ "mover.png" ].texture );          
+          levelThreeObjectFour.position.set( 350, 270 );
+          app.stage.addChild( levelThreeObjectFour );
+          
+          levelThreeObjectThree = new Sprite( resources[ "mover.png" ].texture );          
+          levelThreeObjectThree.position.set( 5, 130 );
+          app.stage.addChild( levelThreeObjectThree );
+      }
+        
+      function levelFour()
+      { 
+          canMove = false;
+          mainScreenEnter = false;
+          moveLevelOneObjects = false;
+          moveLevelTwoObjects = false;
+          moveLevelThreeObjects = false;
+          moveLevelFourObjects = true;
+          level = 4;
+          
+          app.stage.removeChild( levelThreeText );
+          app.stage.removeChild( levelThreeObjectOne );
+          app.stage.removeChild( levelThreeObjectTwo );
+          app.stage.removeChild( levelThreeObjectThree );
+          app.stage.removeChild( levelThreeObjectFour );
+          app.stage.removeChild( jellyfish );
+          
+          // Level four text
+          levelFourText = new PIXI.Text( 'LEVEL 4', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff } );
+
+          // Position it and add it to the stage
+          levelFourText.position.set( 10, 10 );
+          app.stage.addChild( levelFourText );
           
           // Resets jellyfish
           jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
@@ -541,8 +626,8 @@
         
       function checkCollision( jFish , object )
       {   
-          if ( ( ( jFish.x <= object.x + 12 ) && ( jFish.x >= object.x - 12 ) ) 
-                 && ( ( jFish.y <= object.y + 12 ) && ( jFish.y >= object.y - 12 ) ) )
+          if ( ( ( jFish.x <= object.x + 14 ) && ( jFish.x >= object.x - 14 ) ) 
+                 && ( ( jFish.y <= object.y + 14 ) && ( jFish.y >= object.y - 14 ) ) )
           {
               app.stage.removeChild( jellyfish );
               gameOver();
@@ -562,6 +647,11 @@
               else if ( levelNumber == 2 )
               {
                   levelThree();
+              }
+              
+              else if ( levelNumber == 3 )
+              {
+                  levelFour();
               }
           }
       }
