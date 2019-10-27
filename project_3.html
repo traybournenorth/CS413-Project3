@@ -591,9 +591,14 @@
                   levelTwo();
               }
               
-              if ( levelNumber == 2 )
+              else if ( levelNumber == 2 )
               {
                   levelThree();
+              }
+              
+              else
+              {
+                  endGame();
               }
           }
       }
@@ -606,6 +611,16 @@
           // Position it and add it to the stage
           gameOver.position.set( 140, 150 );
           app.stage.addChild( gameOver );
+      }
+        
+      function endGame()
+      {
+          // end game text
+          let endGameText = new PIXI.Text( 'CONGRATS! YOU HAVE MASTERED THE ART OF DODGING!', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000, visible: true } );
+
+          // Position it and add it to the stage
+          endGameText.position.set( 140, 150 );
+          app.stage.addChild( endGameText );
       }
         
       // Keyboard function 
