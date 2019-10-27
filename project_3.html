@@ -34,8 +34,7 @@
       let app = new Application(
       { 
           width: 400, 
-          height: 400,  
-          //backgroundColor: 0xFFFFFF,                     
+          height: 400,                     
           antialiasing: true, 
           transparent: false, 
           resolution: 1
@@ -47,6 +46,7 @@
       loader
         .add( "mover.png" )
         .add( "jellyfish.png" )
+        .add( "finalMap.png" )
         .add( "door.png" )
         .add( "map.json" )
         .add( "map.png" )
@@ -91,18 +91,22 @@
           // Allows you to move in this menu
           canMove = true;
           mainScreenEnter = true;
+          
+          background = new Sprite( resources[ "finalMap.png" ].texture );
+          background.position.set( 15, 0 );
+          app.stage.addChild( background );
 
       	  // Creates mover sprite 
           mover = new Sprite( resources[ "mover.png" ].texture );
 
           // Welcome text
-          let text = new PIXI.Text( 'The Dodger', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff, visible: true } );
+          let text = new PIXI.Text( 'The Dodger', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000, visible: true } );
 
           // Position it and add it to the stage
           text.position.set( 140, 80 );
           app.stage.addChild( text );
 
-          let menu = new PIXI.Text( 'Start\nInstructions\nCredits', { fontFamily : 'sans-serif', fontSize: 15, fill : 0xffffff, visible: true } );
+          let menu = new PIXI.Text( 'Start\nInstructions\nCredits', { fontFamily : 'sans-serif', fontSize: 15, fill : 0x000000, visible: true } );
 
           // Position it and add it to the stage
           menu.position.set( 150, 200 );
