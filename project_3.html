@@ -82,6 +82,13 @@
       var levelTwoObjectTwo;
       var levelTwoObjectThree;
       var levelTwoText;
+        
+      var moveLevelThreeObjects;
+      var levelThreeObjectOne;
+      var levelThreeObjectTwo;
+      var levelThreeObjectThree;
+      var levelThreeObjectFour;
+      var levelThreeText;
       
       // Set the game state
       state = play;
@@ -257,7 +264,7 @@
           let enter = keyboard( 13 );
 
           // Credits text
-          let instructionsText = new PIXI.Text( 'Instructions', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff } );
+          let instructionsText = new PIXI.Text( 'Instructions', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000 } );
 
           // Position it and add it to the stage
           instructionsText.position.set( 165, 80 );
@@ -267,7 +274,7 @@
           let instructionsInfoText = new PIXI.Text( 'Use the W, A, S, D keys to dodge incoming objects as \nyou try ' +
                                                     'to cross the tiles. Each level, the objects move \nfaster and faster. ' +
                                                     'Good luck and have fun!',
-                                                    { fontFamily : 'sans-serif', fontSize: 15, fill : 0xffffff } );
+                                                    { fontFamily : 'sans-serif', fontSize: 15, fill : 0x000000 } );
 
           // Position it and add it to the stage
           instructionsInfoText.position.set( 15, 130 );
@@ -275,7 +282,7 @@
 
           // Back to menu text
           let menuText = new PIXI.Text( 'Press enter to go back to menu', { fontFamily : 'sans-serif', fontSize: 12, 
-                                         fill : 0xffffff } );
+                                         fill : 0x000000 } );
 
           // Position it and add it to the stage
           menuText.position.set( 25, 348 );
@@ -309,16 +316,17 @@
           let enter = keyboard( 13 );
 
           // Credits text
-          let creditsText = new PIXI.Text( 'Credits', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff } );
+          let creditsText = new PIXI.Text( 'Credits', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000 } );
 
           // Position it and add it to the stage
           creditsText.position.set( 165, 80 );
           app.stage.addChild( creditsText );
 
           // Credit information text
-          let creditInfoText = new PIXI.Text( 'Game designer: Traybourne North\n\nComposer: Trayburne North' +
-                                              '\n\nSupervisor: Traybourne North\n\nProject Manager: Traybourne North', 
-                                              { fontFamily : 'sans-serif', fontSize: 15, fill : 0xffffff } );
+          let creditInfoText = new PIXI.Text( 'Game designers: Joseph Danciu, Jevin Dement, \nKeenan Swanson, Traybourne North\n\n'
+                                            + 'Editors: Joseph Danciu, Jevin Dement, Keenan Swanson, \nTraybourne North\n\n'
+                                            + 'Project Manager: Traybourne North', 
+                                              { fontFamily : 'sans-serif', fontSize: 14, fill : 0xffffff } );
 
           // Position it and add it to the stage
           creditInfoText.position.set( 70, 130 );
@@ -326,7 +334,7 @@
 
           // Back to menu text
           let menuText = new PIXI.Text( 'Press enter to go back to menu', { fontFamily : 'sans-serif', fontSize: 12, 
-                                         fill : 0xffffff } );
+                                         fill : 0x000000 } );
 
           // Position it and add it to the stage
           menuText.position.set( 25, 348 );
@@ -360,7 +368,7 @@
           level = 1;
         
           // Level one text
-          levelOneText = new PIXI.Text( 'LEVEL 1', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff } );
+          levelOneText = new PIXI.Text( 'LEVEL 1', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000 } );
 
           // Position it and add it to the stage
           levelOneText.position.set( 10, 10 );
@@ -400,7 +408,7 @@
           app.stage.removeChild( jellyfish );
           
           // Level two text
-          levelTwoText = new PIXI.Text( 'LEVEL 2', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff } );
+          levelTwoText = new PIXI.Text( 'LEVEL 2', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000 } );
 
           // Position it and add it to the stage
           levelTwoText.position.set( 10, 10 );
@@ -439,17 +447,35 @@
           app.stage.removeChild( levelTwoObjectThree );
           app.stage.removeChild( jellyfish );
           
-          // Level two text
+          // Level three text
           levelThreeText = new PIXI.Text( 'LEVEL 3', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff } );
 
           // Position it and add it to the stage
           levelThreeText.position.set( 10, 10 );
           app.stage.addChild( levelThreeText );
           
-          // Resets jellyfish          
+          // Resets jellyfish
+          jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
           jellyfish.position.set( 170, 300 );
           app.stage.addChild( jellyfish );
+          
+          levelThreeObjectOne = new Sprite( resources[ "mover.png" ].texture );          
+          levelThreeObjectOne.position.set( 5, 50 );
+          app.stage.addChild( levelThreeObjectOne );
+        
+          levelThreeObjectTwo = new Sprite( resources[ "mover.png" ].texture );          
+          levelThreeObjectTwo.position.set( 350, 200 );
+          app.stage.addChild( levelThreeObjectTwo );
+          
+          levelThreeObjectFour = new Sprite( resources[ "mover.png" ].texture );          
+          levelThreeObjectFour.position.set( 350, 270 );
+          app.stage.addChild( levelThreeObjectFour );
+          
+          levelThreeObjectThree = new Sprite( resources[ "mover.png" ].texture );          
+          levelThreeObjectThree.position.set( 5, 130 );
+          app.stage.addChild( levelThreeObjectThree );
       }
+        
         
       // Function that moves the jellyfish
       function moveJellyFish()
@@ -547,8 +573,8 @@
         
       function checkCollision( jFish , object )
       {   
-          if ( ( ( jFish.x <= object.x + 12 ) && ( jFish.x >= object.x - 12 ) ) 
-                 && ( ( jFish.y <= object.y + 12 ) && ( jFish.y >= object.y - 12 ) ) )
+          if ( ( ( jFish.x <= object.x + 15 ) && ( jFish.x >= object.x - 15 ) ) 
+                 && ( ( jFish.y <= object.y + 15 ) && ( jFish.y >= object.y - 15 ) ) )
           {
               app.stage.removeChild( jellyfish );
               gameOver();
@@ -557,8 +583,8 @@
         
       function checkDoor( levelNumber, jFish , object )
       {   
-          if ( ( ( jFish.x <= object.x + 10 ) && ( jFish.x >= object.x - 10 ) ) 
-                 && ( ( jFish.y <= object.y + 10 ) && ( jFish.y >= object.y - 10 ) ) )
+          if ( ( ( jFish.x <= object.x + 12 ) && ( jFish.x >= object.x - 12 ) ) 
+                 && ( ( jFish.y <= object.y + 12 ) && ( jFish.y >= object.y - 12 ) ) )
           {
               if ( levelNumber == 1 )
               {
@@ -575,7 +601,7 @@
       function gameOver()
       {
           // Game over Text
-          let gameOver = new PIXI.Text( 'GAME OVER', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff, visible: true } );
+          let gameOver = new PIXI.Text( 'GAME OVER', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000, visible: true } );
 
           // Position it and add it to the stage
           gameOver.position.set( 140, 150 );
