@@ -18,8 +18,14 @@
           Use the W, A, S, D keys to dodge incoming objects as you try to cross the tiles. Each level, the objects move faster and faster. Good luck! </p>
 
     <script src="pixi.min.js"></script>
+    <script src="tweenjs.min.js"></script>
+    <script src="tileUtilities.js"></script>
 
     <script>
+       
+      var jelly1 = PIXI.Texture.fromFrame("Sprites/JellyFish1.png");
+      var jelly2 = PIXI.Texture.fromFrame("Sprites/JellyFish2.png");
+      var jelly3 = PIXI.Texture.fromFrame("Sprites/JellyFish3.png");
 
       // Aliases
       let Application = PIXI.Application;
@@ -29,6 +35,8 @@
       let resources = PIXI.loader.resources;
       let TextureCache = PIXI.utils.TextureCache;
       let Sprite = PIXI.Sprite;
+       
+       var levObjPosX, levObjPosY;
 
       // Creates PIXI application
       let app = new Application(
@@ -42,8 +50,9 @@
 
       // Adds game to HTML document
       document.body.appendChild( app.view );
-        
+
       loader
+        .add("Sprites/JellyAssets.json")
         .add( "mover.png" )
         .add( "jellyfish.png" )
         .add( "finalMap.png" )
@@ -61,6 +70,7 @@
       var canMove;
       var canPressSpace;
       var mainScreenEnter;
+      var jellyFrames = [jelly1,jelly2,jelly3];
         
       var moveLevelOneObjects;
       var levelOneObjectOne;
@@ -72,13 +82,6 @@
       var levelTwoObjectTwo;
       var levelTwoObjectThree;
       var levelTwoText;
-        
-      var moveLevelThreeObjects;
-      var levelThreeObjectOne;
-      var levelThreeObjectTwo;
-      var levelThreeObjectThree;
-      var levelThreeObjectFour;
-      var levelThreeText;
       
       // Set the game state
       state = play;
@@ -91,10 +94,14 @@
           // Allows you to move in this menu
           canMove = true;
           mainScreenEnter = true;
-          
+
           background = new Sprite( resources[ "finalMap.png" ].texture );
           background.position.set( 15, 0 );
           app.stage.addChild( background );
+
+          jellyfish = new PIXI.AnimatedSprite(jellyFrames);
+          jellyfish.animationSpeed = .1;
+          jellyfish.play();
 
       	  // Creates mover sprite 
           mover = new Sprite( resources[ "mover.png" ].texture );
@@ -201,79 +208,43 @@
               checkCollision( jellyfish, levelOneObjectTwo );
               checkDoor( level, jellyfish, door );
               
-              if ( levelOneObjectOne.x <= 350 && levelOneObjectTwo.x >= 5 )
-              {
-                levelOneObjectOne.vx = 2;
-                levelOneObjectOne.x += levelOneObjectOne.vx;
-                
-                levelOneObjectTwo.vx = -2;
-                levelOneObjectTwo.x += levelOneObjectTwo.vx;
-              }
+             
+                 createjs.Tween.get(levelOneObjectOne,{loop:-1, bounce:true})
+                    .to({x:350}, 1500, createjs.Ease.getPowInOut(3))
+                    .wait(10)
+                    .to({x:5}, 1500, createjs.Ease.linear);
+                 
+                 createjs.Tween.get(levelOneObjectTwo,{loop:-1, bounce:true})
+                    .to({x:5}, 1500, createjs.Ease.getPowOut(3))
+                    .wait(10)
+                    .to({x:350}, 1500, createjs.Ease.getPowOut(3));
             
-              else
-              {
-                  levelOneObjectOne.position.set( 5, 50 );
-                  levelOneObjectTwo.position.set( 350, 200 );
-              }
+            
           }
           
-          else if ( moveLevelTwoObjects )
+          if ( moveLevelTwoObjects )
           {   
               checkCollision( jellyfish, levelTwoObjectOne );
               checkCollision( jellyfish, levelTwoObjectTwo );
               checkCollision( jellyfish, levelTwoObjectThree );
               checkDoor( level, jellyfish, door );
+             
+             
+             createjs.Tween.get(levelTwoObjectOne,{loop:-1, bounce:true})
+                    .to({x:350}, 1500, createjs.Ease.linear)
+                    .wait(10)
+                    .to({x:5}, 1500, createjs.Ease.linear);
+                 
+            createjs.Tween.get(levelTwoObjectTwo,{loop:-1, bounce:true})
+                    .to({x:5}, 1500, createjs.Ease.linear)
+                    .wait(10)
+                    .to({x:350}, 1500, createjs.Ease.linear);
+             createjs.Tween.get(levelTwoObjectThree,{loop:-1, bounce:true})
+                    .to({y:370}, 1500, createjs.Ease.linear)
+                    .wait(10)
+                    .to({y:70}, 1500, createjs.Ease.linear);
               
-              if ( levelTwoObjectOne.x <= 350 && levelTwoObjectTwo.x >= 5 )
-              {
-                levelTwoObjectOne.vx = 3;
-                levelTwoObjectOne.x += levelTwoObjectOne.vx;
-                
-                levelTwoObjectTwo.vx = -3;
-                levelTwoObjectTwo.x += levelTwoObjectTwo.vx;
-                  
-                levelTwoObjectThree.vy = 3;
-                levelTwoObjectThree.y += levelTwoObjectThree.vy;
-              }
-            
-              else
-              {
-                  levelTwoObjectOne.position.set( 5, 50 );
-                  levelTwoObjectTwo.position.set( 350, 200 );
-                  levelTwoObjectThree.position.set( 175, 70 );
-              }
-          }
-          
-          else if ( moveLevelThreeObjects )
-          {   
-              checkCollision( jellyfish, levelThreeObjectOne );
-              checkCollision( jellyfish, levelThreeObjectTwo );
-              checkCollision( jellyfish, levelThreeObjectThree );
-              checkCollision( jellyfish, levelThreeObjectFour );
-              checkDoor( level, jellyfish, door );
               
-              if ( levelThreeObjectOne.x <= 350 && levelThreeObjectTwo.x >= 5 )
-              {
-                levelThreeObjectOne.vx = 3;
-                levelThreeObjectOne.x += levelThreeObjectOne.vx;
-                
-                levelThreeObjectTwo.vx = -3;
-                levelThreeObjectTwo.x += levelThreeObjectTwo.vx;
-                  
-                levelThreeObjectThree.vx = 3;
-                levelThreeObjectThree.x += levelThreeObjectThree.vx;
-                  
-                levelThreeObjectFour.vx = -3;
-                levelThreeObjectFour.x += levelThreeObjectFour.vx;
-              }
-            
-              else
-              {
-                  levelThreeObjectOne.position.set( 5, 50 );
-                  levelThreeObjectTwo.position.set( 350, 200 );
-                  levelThreeObjectThree.position.set( 5, 130 );
-                  levelThreeObjectFour.position.set( 350, 270 );
-              }
           }
       }
 
@@ -345,13 +316,12 @@
           app.stage.addChild( creditsText );
 
           // Credit information text
-          let creditInfoText = new PIXI.Text( 'Game designers: Joseph Danciu, Jevin Dement, \nKeenan Swanson, Traybourne North\n\n'
-                                            + 'Editors: Joseph Danciu, Jevin Dement, Keenan Swanson, \nTraybourne North\n\n'
-                                            + 'Project Manager: Traybourne North', 
-                                              { fontFamily : 'sans-serif', fontSize: 14, fill : 0xffffff } );
+          let creditInfoText = new PIXI.Text( 'Game designer: Traybourne North\n\nComposer: Trayburne North' +
+                                              '\n\nSupervisor: Traybourne North\n\nProject Manager: Traybourne North', 
+                                              { fontFamily : 'sans-serif', fontSize: 15, fill : 0xffffff } );
 
           // Position it and add it to the stage
-          creditInfoText.position.set( 20, 130 );
+          creditInfoText.position.set( 70, 130 );
           app.stage.addChild( creditInfoText );
 
           // Back to menu text
@@ -396,7 +366,7 @@
           levelOneText.position.set( 10, 10 );
           app.stage.addChild( levelOneText );
           
-          jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
+          //jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
           jellyfish.position.set( 170, 300 );
           app.stage.addChild( jellyfish );
           
@@ -437,7 +407,7 @@
           app.stage.addChild( levelTwoText );
           
           // Resets jellyfish
-          jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
+          //jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
           jellyfish.position.set( 170, 300 );
           app.stage.addChild( jellyfish );
           
@@ -469,61 +439,14 @@
           app.stage.removeChild( levelTwoObjectThree );
           app.stage.removeChild( jellyfish );
           
-          // Level three text
+          // Level two text
           levelThreeText = new PIXI.Text( 'LEVEL 3', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff } );
 
           // Position it and add it to the stage
           levelThreeText.position.set( 10, 10 );
           app.stage.addChild( levelThreeText );
           
-          // Resets jellyfish
-          jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
-          jellyfish.position.set( 170, 300 );
-          app.stage.addChild( jellyfish );
-          
-          levelThreeObjectOne = new Sprite( resources[ "mover.png" ].texture );          
-          levelThreeObjectOne.position.set( 5, 50 );
-          app.stage.addChild( levelThreeObjectOne );
-        
-          levelThreeObjectTwo = new Sprite( resources[ "mover.png" ].texture );          
-          levelThreeObjectTwo.position.set( 350, 200 );
-          app.stage.addChild( levelThreeObjectTwo );
-          
-          levelThreeObjectFour = new Sprite( resources[ "mover.png" ].texture );          
-          levelThreeObjectFour.position.set( 350, 270 );
-          app.stage.addChild( levelThreeObjectFour );
-          
-          levelThreeObjectThree = new Sprite( resources[ "mover.png" ].texture );          
-          levelThreeObjectThree.position.set( 5, 130 );
-          app.stage.addChild( levelThreeObjectThree );
-      }
-        
-      function levelFour()
-      { 
-          canMove = false;
-          mainScreenEnter = false;
-          moveLevelOneObjects = false;
-          moveLevelTwoObjects = false;
-          moveLevelThreeObjects = false;
-          moveLevelFourObjects = true;
-          level = 4;
-          
-          app.stage.removeChild( levelThreeText );
-          app.stage.removeChild( levelThreeObjectOne );
-          app.stage.removeChild( levelThreeObjectTwo );
-          app.stage.removeChild( levelThreeObjectThree );
-          app.stage.removeChild( levelThreeObjectFour );
-          app.stage.removeChild( jellyfish );
-          
-          // Level four text
-          levelFourText = new PIXI.Text( 'LEVEL 4', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff } );
-
-          // Position it and add it to the stage
-          levelFourText.position.set( 10, 10 );
-          app.stage.addChild( levelFourText );
-          
-          // Resets jellyfish
-          jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
+          // Resets jellyfish          
           jellyfish.position.set( 170, 300 );
           app.stage.addChild( jellyfish );
       }
@@ -624,8 +547,8 @@
         
       function checkCollision( jFish , object )
       {   
-          if ( ( ( jFish.x <= object.x + 14 ) && ( jFish.x >= object.x - 14 ) ) 
-                 && ( ( jFish.y <= object.y + 14 ) && ( jFish.y >= object.y - 14 ) ) )
+          if ( ( ( jFish.x <= object.x + 12 ) && ( jFish.x >= object.x - 12 ) ) 
+                 && ( ( jFish.y <= object.y + 12 ) && ( jFish.y >= object.y - 12 ) ) )
           {
               app.stage.removeChild( jellyfish );
               gameOver();
@@ -642,14 +565,9 @@
                   levelTwo();
               }
               
-              else if ( levelNumber == 2 )
+              if ( levelNumber == 2 )
               {
                   levelThree();
-              }
-              
-              else if ( levelNumber == 3 )
-              {
-                  levelFour();
               }
           }
       }
