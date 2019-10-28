@@ -211,6 +211,7 @@
           // THIS IS WHERE YOU CREATE OBJECTS AND MAKE THEM MOVE AUTOMATICALLY
           if ( moveLevelOneObjects )
           {   
+              checkWallCollision( jellyfish );
               checkCollision( jellyfish, levelOneObjectOne );
               checkCollision( jellyfish, levelOneObjectTwo );
               checkDoor( level, jellyfish, door );
@@ -228,6 +229,7 @@
           
           else if ( moveLevelTwoObjects )
           {   
+              checkWallCollision( jellyfish );
               checkCollision( jellyfish, levelTwoObjectOne );
               checkCollision( jellyfish, levelTwoObjectTwo );
               checkCollision( jellyfish, levelTwoObjectThree );
@@ -252,6 +254,7 @@
           
           else if ( moveLevelThreeObjects )
           {   
+              checkWallCollision( jellyfish );
               checkCollision( jellyfish, levelThreeObjectOne );
               checkCollision( jellyfish, levelThreeObjectTwo );
               checkCollision( jellyfish, levelThreeObjectThree );
@@ -556,8 +559,6 @@
           // sKey press method
           sKey.press = function() 
           {
-              checkWallCollision( jellyfish );
-              
               // Moves jellyfish downward
               jellyfish.vy = 3;
               jellyfish.vx = 0;
@@ -589,10 +590,9 @@
         
       function checkWallCollision( jFish )
       {
-         if ( jFish.y <= 20 || jFish.y >= 305 )
+         if ( jFish.y <= 3 || jFish.y >= 305 || jFish.x <= 15 || jFish.x >= 370 )
          {
-              jFish.vx = 0;
-              jFish.vy = 0;
+             jFish.position.set( 170, 300 );
          } 
       }
         
