@@ -1,6 +1,6 @@
 <!--Project 3: The Dodger
 
-	Keyboard movement cite:
+	Keyboard movement cite: 
 	https://github.com/kittykatattack/learningPixi/blob/master/examples/12_keyboardMovement.html
 -->
 
@@ -27,6 +27,8 @@
       var jelly1 = PIXI.Texture.fromFrame("Sprites/JellyFish1.png");
       var jelly2 = PIXI.Texture.fromFrame("Sprites/JellyFish2.png");
       var jelly3 = PIXI.Texture.fromFrame("Sprites/JellyFish3.png");
+       
+      var gameOverScreenText = PIXI.Texture.fromImage("endScreen.png");
 
       // Aliases
       let Application = PIXI.Application;
@@ -36,16 +38,16 @@
       let resources = PIXI.loader.resources;
       let TextureCache = PIXI.utils.TextureCache;
       let Sprite = PIXI.Sprite;
-
+       
        var levObjPosX, levObjPosY;
 
       // Creates PIXI application
       let app = new Application(
-      {
-          width: 400,
-          height: 400,
-          antialiasing: true,
-          transparent: false,
+      { 
+          width: 400, 
+          height: 400,                     
+          antialiasing: true, 
+          transparent: false, 
           resolution: 1
       } );
 
@@ -74,33 +76,37 @@
       var mainScreenEnter;
       var jellyFrames = [jelly1,jelly2,jelly3];
       var puffFrames = [puff1,puff2];
-
+       
       var moveLevelOneObjects;
       var levelOneObjectOne;
       var levelOneObjectTwo;
       var levelOneText;
-
+        
       var moveLevelTwoObjects;
       var levelTwoObjectOne;
       var levelTwoObjectTwo;
       var levelTwoObjectThree;
       var levelTwoText;
-
+        
       var moveLevelThreeObjects;
       var levelThreeObjectOne;
       var levelThreeObjectTwo;
       var levelThreeObjectThree;
       var levelThreeObjectFour;
       var levelThreeText;
-
+       
+      var deadScreenBackground = new PIXI.Sprite(gameOverScreenText);
+       
+      var deadScreen = new PIXI.Container();
+      
       // Set the game state
       state = play;
-
-      // Start the game loop
+   
+      // Start the game loop 
       app.ticker.add( delta => gameLoop( delta ) );
 
-      function setStage()
-      {
+      function setStage() 
+      {   
           // Allows you to move in this menu
           canMove = true;
           mainScreenEnter = true;
@@ -113,7 +119,7 @@
           jellyfish.animationSpeed = .1;
           jellyfish.play();
 
-      	  // Creates mover sprite
+      	  // Creates mover sprite 
           mover = new PIXI.AnimatedSprite(puffFrames);
           mover.animationSpeed = .04;
           mover.play();
@@ -122,7 +128,7 @@
           let text = new PIXI.Text( 'The Dodger', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000, visible: true } );
 
           // Position it and add it to the stage
-          text.position.set( 150, 80 );
+          text.position.set( 140, 80 );
           app.stage.addChild( text );
 
           let menu = new PIXI.Text( 'Start\nInstructions\nCredits', { fontFamily : 'sans-serif', fontSize: 15, fill : 0x000000, visible: true } );
@@ -143,7 +149,7 @@
           let enter = keyboard( 13 );
 
           // S press method
-          sKey.press = () =>
+          sKey.press = () => 
           {
               if ( mover.position.y < 237 && canMove )
               {
@@ -152,13 +158,13 @@
           };
 
           // S key release method
-          sKey.release = () =>
+          sKey.release = () => 
           {
               mover.position.y += 0;
           };
 
           // W press method
-          wKey.press = () =>
+          wKey.press = () => 
           {
               if ( mover.position.y > 203 && canMove )
               {
@@ -167,13 +173,13 @@
           };
 
           // W key release method
-          wKey.release = () =>
+          wKey.release = () => 
           {
               mover.position.y -= 0;
           };
 
           // Enter press method
-          enter.press = () =>
+          enter.press = () => 
           {
               if ( mover.position.y == 221 && mainScreenEnter )
               {
@@ -211,52 +217,80 @@
           state( delta );
       }
 
-      function play( delta )
-      {
+      function play( delta ) 
+      {   
           // THIS IS WHERE YOU CREATE OBJECTS AND MAKE THEM MOVE AUTOMATICALLY
           if ( moveLevelOneObjects )
-          {
+          {   
+      
               checkCollision( jellyfish, levelOneObjectOne );
               checkCollision( jellyfish, levelOneObjectTwo );
-              checkDoor( level, jellyfish, door );
-
-
-                 createjs.Tween.get(levelOneObjectOne,{loop:-1, bounce:true})
+              checkDoor( level, jellyfish, door1 );
+              
+              createjs.Tween.get(levelOneObjectOne,{loop:-1, bounce:true})
                     .to({x:350}, 1500, createjs.Ease.getPowInOut(3))
                     .wait(10)
                     .to({x:5}, 1500, createjs.Ease.linear);
-
-                 createjs.Tween.get(levelOneObjectTwo,{loop:-1, bounce:true})
+                 
+              createjs.Tween.get(levelOneObjectTwo,{loop:-1, bounce:true})
                     .to({x:5}, 1500, createjs.Ease.getPowOut(3))
                     .wait(10)
                     .to({x:350}, 1500, createjs.Ease.getPowOut(3));
-
-
           }
-
-          if ( moveLevelTwoObjects )
-          {
+          
+          else if ( moveLevelTwoObjects )
+          {   
+         
               checkCollision( jellyfish, levelTwoObjectOne );
               checkCollision( jellyfish, levelTwoObjectTwo );
               checkCollision( jellyfish, levelTwoObjectThree );
-              checkDoor( level, jellyfish, door );
-
-
-             createjs.Tween.get(levelTwoObjectOne,{loop:-1, bounce:true})
+              checkDoor( level, jellyfish, door2 );
+             
+             
+              createjs.Tween.get(levelTwoObjectOne,{loop:-1, bounce:true})
                     .to({x:350}, 1500, createjs.Ease.linear)
                     .wait(10)
                     .to({x:5}, 1500, createjs.Ease.linear);
-
-            createjs.Tween.get(levelTwoObjectTwo,{loop:-1, bounce:true})
+                 
+             createjs.Tween.get(levelTwoObjectTwo,{loop:-1, bounce:true})
                     .to({x:5}, 1500, createjs.Ease.linear)
                     .wait(10)
                     .to({x:350}, 1500, createjs.Ease.linear);
+              
              createjs.Tween.get(levelTwoObjectThree,{loop:-1, bounce:true})
                     .to({y:370}, 1500, createjs.Ease.linear)
                     .wait(10)
+                    .to({y:70}, 1500, createjs.Ease.linear); 
+          }
+          
+          else if ( moveLevelThreeObjects )
+          {   
+              
+              checkCollision( jellyfish, levelThreeObjectOne );
+              checkCollision( jellyfish, levelThreeObjectTwo );
+              checkCollision( jellyfish, levelThreeObjectThree );
+              checkCollision( jellyfish, levelThreeObjectFour );
+              checkDoor( level, jellyfish, door3 );
+             
+             createjs.Tween.get(levelThreeObjectOne,{loop:-1, bounce:true})
+                    .to({x:350, y:360}, 1500, createjs.Ease.linear)
+                    .wait(10)
+                    .to({x:5, y:50}, 1500, createjs.Ease.getPowOut(5));
+                 
+             createjs.Tween.get(levelThreeObjectTwo,{loop:-1, bounce:true})
+                    .to({x:5, y:210}, 1500, createjs.Ease.linear)
+                    .wait(10)
+                    .to({x:350}, 1500, createjs.Ease.linear);
+              
+             createjs.Tween.get(levelThreeObjectThree,{loop:-1, bounce:true})
+                    .to({y:370}, 1500, createjs.Ease.linear)
+                    .wait(10)
                     .to({y:70}, 1500, createjs.Ease.linear);
-
-
+             
+             createjs.Tween.get(levelThreeObjectFour,{loop:-1, bounce:true})
+                    .to({y:370, x: 100}, 1500, createjs.Ease.linear)
+                    .wait(10)
+                    .to({y:70, x:270}, 1500, createjs.Ease.linear); 
           }
       }
 
@@ -286,14 +320,14 @@
           app.stage.addChild( instructionsInfoText );
 
           // Back to menu text
-          let menuText = new PIXI.Text( 'Press enter to go back to menu', { fontFamily : 'sans-serif', fontSize: 12,
+          let menuText = new PIXI.Text( 'Press enter to go back to menu', { fontFamily : 'sans-serif', fontSize: 12, 
                                          fill : 0x000000 } );
 
           // Position it and add it to the stage
           menuText.position.set( 25, 348 );
           app.stage.addChild( menuText );
 
-          // Creates mover sprite
+          // Creates mover sprite 
           moverTwo = new Sprite( resources[ "mover.png" ].texture );
 
           moverTwo.position.x = 10;
@@ -302,7 +336,7 @@
           app.stage.addChild( moverTwo );
 
           // Enter press method
-          enter.press = () =>
+          enter.press = () => 
           {
               app.stage.removeChild( instructionsText );
               app.stage.removeChild( instructionsInfoText );
@@ -311,7 +345,7 @@
               window.location.replace( "http://dana.ucc.nau.edu/tpn26/GroupProject/project_3.html" );
           };
       }
-
+        
       // Function that shows the credits page
       function credits()
       {
@@ -330,7 +364,7 @@
           // Credit information text
           let creditInfoText = new PIXI.Text( 'Game designers: Joseph Danciu, Jevin Dement, \nKeenan Swanson, Traybourne North\n\n'
                                             + 'Editors: Joseph Danciu, Jevin Dement, Keenan Swanson, \nTraybourne North\n\n'
-                                            + 'Project Manager: Traybourne North',
+                                            + 'Project Manager: Traybourne North', 
                                               { fontFamily : 'sans-serif', fontSize: 14, fill : 0x000000 } );
 
           // Position it and add it to the stage
@@ -338,14 +372,14 @@
           app.stage.addChild( creditInfoText );
 
           // Back to menu text
-          let menuText = new PIXI.Text( 'Press enter to go back to menu', { fontFamily : 'sans-serif', fontSize: 12,
+          let menuText = new PIXI.Text( 'Press enter to go back to menu', { fontFamily : 'sans-serif', fontSize: 12, 
                                          fill : 0x000000 } );
 
           // Position it and add it to the stage
           menuText.position.set( 25, 348 );
           app.stage.addChild( menuText );
 
-          // Creates mover sprite
+          // Creates mover sprite 
           moverTwo = new Sprite( resources[ "mover.png" ].texture );
 
           moverTwo.position.x = 10;
@@ -354,7 +388,7 @@
           app.stage.addChild( moverTwo );
 
           // Enter press method
-          enter.press = () =>
+          enter.press = () => 
           {
               app.stage.removeChild( creditsText );
               app.stage.removeChild( creditInfoText );
@@ -363,304 +397,404 @@
               window.location.replace( "http://dana.ucc.nau.edu/tpn26/GroupProject/project_3.html" );
           };
       }
-
-      // Game starts here
+        
+      // Game starts here 
       function startGame()
       {
           canMove = false;
           mainScreenEnter = false;
           moveLevelOneObjects = true;
           level = 1;
-
+        
           // Level one text
           levelOneText = new PIXI.Text( 'LEVEL 1', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000 } );
 
           // Position it and add it to the stage
           levelOneText.position.set( 10, 10 );
           app.stage.addChild( levelOneText );
-
-          //jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );
+          
+          //jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
           jellyfish.position.set( 170, 300 );
           app.stage.addChild( jellyfish );
-
-          door = new Sprite( resources[ "door.png" ].texture );
-          door.position.set( 170, 0 );
-          app.stage.addChild( door );
-
+          
+          door1 = new Sprite( resources[ "door.png" ].texture );          
+          door1.position.set( 170, 0 );
+          app.stage.addChild( door1 );
+          
           levelOneObjectOne = new PIXI.AnimatedSprite(puffFrames);
           levelOneObjectOne.animationSpeed = .04;
           levelOneObjectOne.play();
-
+         
           levelOneObjectOne.position.set( 5, 50 );
           app.stage.addChild( levelOneObjectOne );
-
+        
           levelOneObjectTwo = new PIXI.AnimatedSprite(puffFrames);
           levelOneObjectTwo.animationSpeed = .03;
           levelOneObjectTwo.play();
-
+         
           levelOneObjectTwo.position.set( 350, 200 );
           app.stage.addChild( levelOneObjectTwo );
-
-          moveJellyFish();
+          
+          moveJellyFish(); 
       }
-
+    
       // Level Two
       function levelTwo()
-      {
+      { 
           canMove = false;
           mainScreenEnter = false;
           moveLevelOneObjects = false;
           moveLevelTwoObjects = true;
           level = 2;
-
+          
           app.stage.removeChild( levelOneText );
           app.stage.removeChild( levelOneObjectOne );
           app.stage.removeChild( levelOneObjectTwo );
           app.stage.removeChild( jellyfish );
-
+          app.stage.removeChild( door1 );
+         
+         door2 = new Sprite( resources[ "door.png" ].texture );          
+          door2.position.set( 170, 0 );
+          app.stage.addChild( door2 );
+          
           // Level two text
           levelTwoText = new PIXI.Text( 'LEVEL 2', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000 } );
 
           // Position it and add it to the stage
           levelTwoText.position.set( 10, 10 );
           app.stage.addChild( levelTwoText );
-
+          
           // Resets jellyfish
-          //jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );
+          //jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
           jellyfish.position.set( 170, 300 );
           app.stage.addChild( jellyfish );
-
-
+          
           levelTwoObjectOne = new PIXI.AnimatedSprite(puffFrames);
           levelTwoObjectOne.animationSpeed = .04;
           levelTwoObjectOne.play();
-
+         
+         
           levelTwoObjectOne.position.set( 5, 50 );
           app.stage.addChild( levelTwoObjectOne );
-
+         
+        
           levelTwoObjectTwo = new PIXI.AnimatedSprite(puffFrames);
           levelTwoObjectTwo.animationSpeed = .04;
           levelTwoObjectTwo.play();
-
+         
+         
           levelTwoObjectTwo.position.set( 350, 200 );
           app.stage.addChild( levelTwoObjectTwo );
-
+          
           levelTwoObjectThree = new PIXI.AnimatedSprite(puffFrames);
           levelTwoObjectThree.animationSpeed = .04;
           levelTwoObjectThree.play();
-
+         
           levelTwoObjectThree.position.set( 175, 70 );
           app.stage.addChild( levelTwoObjectThree );
       }
-
+        
       function levelThree()
-      {
+      { 
           canMove = false;
           mainScreenEnter = false;
           moveLevelOneObjects = false;
           moveLevelTwoObjects = false;
           moveLevelThreeObjects = true;
           level = 3;
-
+          
           app.stage.removeChild( levelTwoText );
           app.stage.removeChild( levelTwoObjectOne );
           app.stage.removeChild( levelTwoObjectTwo );
           app.stage.removeChild( levelTwoObjectThree );
           app.stage.removeChild( jellyfish );
-
+          app.stage.removeChild( door2 );
+         
+          door3 = new Sprite( resources[ "door.png" ].texture );          
+          door3.position.set( 170, 0 );
+          app.stage.addChild( door3 );
+         
           // Level three text
-          levelThreeText = new PIXI.Text( 'LEVEL 3', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff } );
+          levelThreeText = new PIXI.Text( 'LEVEL 3', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000 } );
 
           // Position it and add it to the stage
           levelThreeText.position.set( 10, 10 );
           app.stage.addChild( levelThreeText );
-
+          
           // Resets jellyfish
-          jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );
+          jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
           jellyfish.position.set( 170, 300 );
           app.stage.addChild( jellyfish );
-
+          
           levelThreeObjectOne = new PIXI.AnimatedSprite(puffFrames);
           levelThreeObjectOne.animationSpeed = .04;
-          levelThreeObjectOne.play();
+          levelThreeObjectOne.play();      
           levelThreeObjectOne.position.set( 5, 50 );
           app.stage.addChild( levelThreeObjectOne );
-
+        
           levelThreeObjectTwo = new PIXI.AnimatedSprite(puffFrames);
           levelThreeObjectTwo.animationSpeed = .04;
-          levelThreeObjectTwo.play();
+          levelThreeObjectTwo.play();       
           levelThreeObjectTwo.position.set( 350, 200 );
           app.stage.addChild( levelThreeObjectTwo );
-
+          
           levelThreeObjectThree = new PIXI.AnimatedSprite(puffFrames);
           levelThreeObjectThree .animationSpeed = .04;
           levelThreeObjectThree.play();
           levelThreeObjectThree.position.set( 5, 130 );
           app.stage.addChild( levelThreeObjectThree );
-
+          
           levelThreeObjectFour = new PIXI.AnimatedSprite(puffFrames);
           levelThreeObjectFour .animationSpeed = .04;
           levelThreeObjectFour.play();
           levelThreeObjectFour.position.set( 350, 270 );
           app.stage.addChild( levelThreeObjectFour );
       }
-
-
+        
+        
       // Function that moves the jellyfish
       function moveJellyFish()
-      {
+      {      
           // Sets W, A, S, D keys
           let wKey = keyboard( 87 );
           let aKey = keyboard( 65 );
           let sKey = keyboard( 83 );
           let dKey = keyboard( 68 );
-
+          
           // aKey press method
-          aKey.press = function()
+          aKey.press = function() 
           {
               // Moves jellyfish to the left
               jellyfish.vx = -3;
               jellyfish.vy = 0;
-
-              jellyfish.x += jellyfish.vx;
+              
+              if(jellyfish.x > 0)
+                {
+                   jellyfish.x += jellyfish.vx;
               jellyfish.y += jellyfish.vy;
+                }
           };
 
           // aKey release method
-          aKey.release = function()
+          aKey.release = function() 
           {
               // Stops jellyfish on release
-              if ( !dKey.isDown && jellyfish.vy == 0 )
+              if ( !dKey.isDown && jellyfish.vy == 0 ) 
               {
                   jellyfish.vx = 0;
               }
           };
 
           // wKey press method
-          wKey.press = function()
+          wKey.press = function() 
           {
               // Moves jellyfish upward
               jellyfish.vy = -3;
               jellyfish.vx = 0;
-
-              jellyfish.x += jellyfish.vx;
+              
+              if(jellyfish.y > 0)
+                {
+                   jellyfish.x += jellyfish.vx;
               jellyfish.y += jellyfish.vy;
+                }
           };
 
           // wKey release method
-          wKey.release = function()
+          wKey.release = function() 
           {
               // Stops jellyfish on release
-              if ( !sKey.isDown && jellyfish.vx == 0 )
+              if ( !sKey.isDown && jellyfish.vx == 0 ) 
               {
                   jellyfish.vy = 0;
               }
           };
 
           // dKey press method
-          dKey.press = function()
+          dKey.press = function() 
           {
               // Moves jellyfish to the left
               jellyfish.vx = 3;
               jellyfish.vy = 0;
-
-              jellyfish.x += jellyfish.vx;
-              jellyfish.y += jellyfish.vy;
+              
+              if(jellyfish.x < 370)
+                {
+                   jellyfish.x += jellyfish.vx;
+                   jellyfish.y += jellyfish.vy;
+                }
           };
 
           // dKey release method
-          dKey.release = function()
+          dKey.release = function() 
           {
               // Stops jellyfish on release
-              if ( !aKey.isDown && jellyfish.vy == 0 )
+              if ( !aKey.isDown && jellyfish.vy == 0 ) 
               {
                   jellyfish.vx = 0;
               }
           };
 
           // sKey press method
-          sKey.press = function()
+          sKey.press = function() 
           {
               // Moves jellyfish downward
               jellyfish.vy = 3;
               jellyfish.vx = 0;
-
-              jellyfish.x += jellyfish.vx;
-              jellyfish.y += jellyfish.vy;
+              
+              if(jellyfish.y < 370)
+                {
+                   jellyfish.x += jellyfish.vx;
+                   jellyfish.y += jellyfish.vy;
+                }
           };
 
           // sKey release method
-          sKey.release = function()
+          sKey.release = function() 
           {
             // Stops jellyfish on release
-            if ( !wKey.isDown && jellyfish.vx == 0 )
+            if ( !wKey.isDown && jellyfish.vx == 0 ) 
             {
                 jellyfish.vy = 0;
             }
           };
       }
-
+        
       function checkCollision( jFish , object )
-      {
-          if ( ( ( jFish.x <= object.x + 15 ) && ( jFish.x >= object.x - 15 ) )
+      {   
+          if ( ( ( jFish.x <= object.x + 15 ) && ( jFish.x >= object.x - 15 ) ) 
                  && ( ( jFish.y <= object.y + 15 ) && ( jFish.y >= object.y - 15 ) ) )
           {
               app.stage.removeChild( jellyfish );
               gameOver();
           }
       }
-
+        
+        
       function checkDoor( levelNumber, jFish , object )
-      {
-          if ( ( ( jFish.x <= object.x + 12 ) && ( jFish.x >= object.x - 12 ) )
-                 && ( ( jFish.y <= object.y + 12 ) && ( jFish.y >= object.y - 12 ) ) )
+      {   
+          if ( ( ( jFish.x <= object.x + 16 ) && ( jFish.x >= object.x - 16 ) ) 
+                 && ( ( jFish.y <= object.y + 16 ) && ( jFish.y >= object.y - 16 ) ) )
           {
               if ( levelNumber == 1 )
               {
                   levelTwo();
               }
-
+              
               else if ( levelNumber == 2 )
               {
                   levelThree();
               }
-
+              
               else
               {
                   endGame();
               }
           }
       }
-
+        
       function gameOver()
       {
           // Game over Text
-          let gameOver = new PIXI.Text( 'GAME OVER', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000, visible: true } );
+          let gameOver = new PIXI.Text( 'GAME OVER', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff, visible: true } );
+         
+         let playAgain = new PIXI.Text( 'PLAY AGAIN?', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff, visible: true } );
 
           // Position it and add it to the stage
           gameOver.position.set( 140, 150 );
-          app.stage.addChild( gameOver );
+          playAgain.position.set(140, 170);
+         playAgain.interactive = true;
+         playAgain.buttonMode = true;
+         playAgain.on("mousedown", (event) => {
+            
+            if(level == 1)
+               {
+                  app.stage.removeChild( levelOneText );
+                  app.stage.removeChild( levelOneObjectOne );
+                  app.stage.removeChild( levelOneObjectTwo );
+                  app.stage.removeChild( jellyfish );
+                  app.stage.removeChild( door1 );
+                  startGame();
+                  deadScreen.removeChild(gameOver);
+                  deadScreen.removeChild(playAgain);
+                  deadScreen.removeChild(deadScreenBackground)
+                  app.stage.removeChild( deadScreen );
+                  
+               }
+            if(level == 2)
+               {
+                  app.stage.removeChild( levelTwoText );
+                  app.stage.removeChild( levelTwoObjectOne );
+                  app.stage.removeChild( levelTwoObjectTwo );
+                  app.stage.removeChild( levelTwoObjectThree );
+                  app.stage.removeChild( jellyfish );
+                  app.stage.removeChild( door2 );
+                  levelTwo();
+                  deadScreen.removeChild(gameOver);
+                  deadScreen.removeChild(playAgain);
+                  deadScreen.removeChild(deadScreenBackground)
+                  app.stage.removeChild( deadScreen );
+               }
+            if(level == 3)
+               {
+                  app.stage.removeChild( levelThreeText );
+                  app.stage.removeChild( levelThreeObjectOne );
+                  app.stage.removeChild( levelThreeObjectTwo );
+                  app.stage.removeChild( levelThreeObjectThree );
+                  app.stage.removeChild( levelThreeObjectFour );
+                  app.stage.removeChild( jellyfish );
+                  app.stage.removeChild( door3 );
+                  levelThree();
+                  deadScreen.removeChild(gameOver);
+                  deadScreen.removeChild(playAgain);
+                  deadScreen.removeChild(deadScreenBackground)
+                  app.stage.removeChild( deadScreen );
+               }
+            
+         })
+         deadScreen.addChild(deadScreenBackground)
+         deadScreen.addChild(gameOver);
+         deadScreen.addChild(playAgain);
+         
+         deadScreen.visible = true;
+         app.stage.addChild(deadScreen);
+         
       }
-
+        
       function endGame()
       {
+         var endContainter = new PIXI.Container();
+          app.stage.removeChild( levelThreeText );
+          app.stage.removeChild( levelThreeObjectOne );
+          app.stage.removeChild( levelThreeObjectTwo );
+          app.stage.removeChild( levelThreeObjectThree );
+          app.stage.removeChild( levelThreeObjectFour );
+          app.stage.removeChild( door3 );
+          app.stage.removeChild( jellyfish );
+         
+         var restartText = new PIXI.Text( 'PRSESS F5 TO GO BACK TO THE MAIN SCREEN?', { fontFamily : 'sans-serif', fontSize: 12, fill : 0x000000, visible: true } );
+         
+          
           // end game text
-          let endGameText = new PIXI.Text( 'CONGRATS! YOU HAVE MASTERED THE ART OF DODGING!', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000, visible: true } );
+          let endGameText = new PIXI.Text( 'CONGRATS! YOU HAVE MASTERED THE ART OF DODGING!', { fontFamily : 'sans-serif', fontSize: 12, fill : 0x000000, visible: true } );
 
           // Position it and add it to the stage
-          endGameText.position.set( 140, 150 );
-          app.stage.addChild( endGameText );
+          endGameText.position.set( 20, 150 );
+         
+          restartText.position.set( 90, 170 );
+   
+         app.stage.addChild( restartText );
+      
+         app.stage.addChild( endGameText );         
       }
-
-      // Keyboard function
-      function keyboard( keyCode )
+        
+      // Keyboard function 
+      function keyboard( keyCode ) 
       {
           var key = {};
           key.code = keyCode;
           key.isDown = false;
-          key.isUp = true;
+          key.isUp = true;         
 
-          key.downHandler = event =>
+          key.downHandler = event => 
           {
               if ( event.keyCode == key.code && key.press )
               {
@@ -668,11 +802,11 @@
                   key.isDown = true;
                   key.isUp = false;
               }
-
+          
               event.preventDefault();
           };
 
-          key.upHandler = event =>
+          key.upHandler = event => 
           {
               if ( event.keyCode == key.code && key.release )
               {
@@ -680,7 +814,7 @@
                   key.isDown = false;
                   key.isUp = true;
               }
-
+          
               event.preventDefault();
           };
 
@@ -697,13 +831,13 @@
 
     <script>
 
-		( function()
+		( function() 
       	{
             var d = document, s = d.createElement( 'script' );
         	s.src = 'http://nau-cs413.disqus.com/embed.js';
         	s.setAttribute('data-timestamp', + new Date());
         	( d.head || d.body ).appendChild( s );
-      	} )();
+      	} )(); 
 
     </script>
 
