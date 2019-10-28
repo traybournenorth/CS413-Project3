@@ -565,7 +565,7 @@
           aKey.press = function() 
           {
               // Moves jellyfish to the left
-              jellyfish.vx = -3;
+              jellyfish.vx = -6;
               jellyfish.vy = 0;
               
               if(jellyfish.x > 0)
@@ -589,7 +589,7 @@
           wKey.press = function() 
           {
               // Moves jellyfish upward
-              jellyfish.vy = -3;
+              jellyfish.vy = -6;
               jellyfish.vx = 0;
               
               if(jellyfish.y > 0)
@@ -613,7 +613,7 @@
           dKey.press = function() 
           {
               // Moves jellyfish to the left
-              jellyfish.vx = 3;
+              jellyfish.vx = 6;
               jellyfish.vy = 0;
               
               if(jellyfish.x < 370)
@@ -637,7 +637,7 @@
           sKey.press = function() 
           {
               // Moves jellyfish downward
-              jellyfish.vy = 3;
+              jellyfish.vy = 6;
               jellyfish.vx = 0;
               
               if(jellyfish.y < 370)
@@ -660,8 +660,8 @@
         
       function checkCollision( jFish , object )
       {   
-          if ( ( ( jFish.x <= object.x + 15 ) && ( jFish.x >= object.x - 15 ) ) 
-                 && ( ( jFish.y <= object.y + 15 ) && ( jFish.y >= object.y - 15 ) ) )
+          if ( ( ( jFish.x <= object.x + 17 ) && ( jFish.x >= object.x - 17 ) ) 
+                 && ( ( jFish.y <= object.y + 17 ) && ( jFish.y >= object.y - 17 ) ) )
           {
               app.stage.removeChild( jellyfish );
               gameOver();
@@ -671,8 +671,8 @@
         
       function checkDoor( levelNumber, jFish , object )
       {   
-          if ( ( ( jFish.x <= object.x + 16 ) && ( jFish.x >= object.x - 16 ) ) 
-                 && ( ( jFish.y <= object.y + 16 ) && ( jFish.y >= object.y - 16 ) ) )
+          if ( ( ( jFish.x <= object.x + 18 ) && ( jFish.x >= object.x - 18 ) ) 
+                 && ( ( jFish.y <= object.y + 18 ) && ( jFish.y >= object.y - 18 ) ) )
           {
               if ( levelNumber == 1 )
               {
@@ -770,7 +770,7 @@
           app.stage.removeChild( door3 );
           app.stage.removeChild( jellyfish );
          
-         var restartText = new PIXI.Text( 'PRSESS F5 TO GO BACK TO THE MAIN SCREEN?', { fontFamily : 'sans-serif', fontSize: 12, fill : 0x000000, visible: true } );
+         var restartText = new PIXI.Text( 'PRESS F5 TO GO BACK TO THE MAIN SCREEN?', { fontFamily : 'sans-serif', fontSize: 12, fill : 0x000000, visible: true } );
          
           
           // end game text
@@ -779,7 +779,7 @@
           // Position it and add it to the stage
           endGameText.position.set( 20, 150 );
          
-          restartText.position.set( 90, 170 );
+          restartText.position.set( 70, 170 );
    
          app.stage.addChild( restartText );
       
