@@ -554,7 +554,6 @@
           app.stage.addChild( levelThreeObjectFour );
       }
         
-        
       // Function that moves the jellyfish
       function moveJellyFish()
       {      
@@ -751,20 +750,19 @@
                   deadScreen.removeChild(deadScreenBackground)
                   app.stage.removeChild( deadScreen );
                }
-            
          })
+          
          deadScreen.addChild(deadScreenBackground)
          deadScreen.addChild(gameOver);
          deadScreen.addChild(playAgain);
          
          deadScreen.visible = true;
-         app.stage.addChild(deadScreen);
-         
+         app.stage.addChild(deadScreen);  
       }
         
       function endGame()
       {
-         var endContainter = new PIXI.Container();
+          var endContainter = new PIXI.Container();
           app.stage.removeChild( levelThreeText );
           app.stage.removeChild( levelThreeObjectOne );
           app.stage.removeChild( levelThreeObjectTwo );
@@ -773,7 +771,7 @@
           app.stage.removeChild( door3 );
           app.stage.removeChild( jellyfish );
          
-         var restartText = new PIXI.Text( 'PRESS F5 TO GO BACK TO THE MAIN SCREEN.', { fontFamily : 'sans-serif', fontSize: 12, fill : 0x000000, visible: true } );
+          var restartText = new PIXI.Text( 'PRESS F5 TO GO BACK TO THE MAIN SCREEN.', { fontFamily : 'sans-serif', fontSize: 12, fill : 0x000000, visible: true } );
          
           
           // end game text
@@ -784,9 +782,9 @@
          
           restartText.position.set( 70, 170 );
    
-         app.stage.addChild( restartText );
+          app.stage.addChild( restartText );
       
-         app.stage.addChild( endGameText );         
+          app.stage.addChild( endGameText );         
       }
         
       // Keyboard function 
