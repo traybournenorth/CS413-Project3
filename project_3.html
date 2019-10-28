@@ -565,7 +565,7 @@
           aKey.press = function() 
           {
               // Moves jellyfish to the left
-              jellyfish.vx = -6;
+              jellyfish.vx = -5;
               jellyfish.vy = 0;
               
               if(jellyfish.x > 0)
@@ -589,7 +589,7 @@
           wKey.press = function() 
           {
               // Moves jellyfish upward
-              jellyfish.vy = -6;
+              jellyfish.vy = -5;
               jellyfish.vx = 0;
               
               if(jellyfish.y > 0)
@@ -613,7 +613,7 @@
           dKey.press = function() 
           {
               // Moves jellyfish to the left
-              jellyfish.vx = 6;
+              jellyfish.vx = 5;
               jellyfish.vy = 0;
               
               if(jellyfish.x < 370)
@@ -637,7 +637,7 @@
           sKey.press = function() 
           {
               // Moves jellyfish downward
-              jellyfish.vy = 6;
+              jellyfish.vy = 5;
               jellyfish.vx = 0;
               
               if(jellyfish.y < 370)
@@ -660,8 +660,8 @@
         
       function checkCollision( jFish , object )
       {   
-          if ( ( ( jFish.x <= object.x + 17 ) && ( jFish.x >= object.x - 17 ) ) 
-                 && ( ( jFish.y <= object.y + 17 ) && ( jFish.y >= object.y - 17 ) ) )
+          if ( ( ( jFish.x <= object.x + 25 ) && ( jFish.x >= object.x - 25 ) ) 
+                 && ( ( jFish.y <= object.y + 25 ) && ( jFish.y >= object.y - 25 ) ) )
           {
               app.stage.removeChild( jellyfish );
               gameOver();
