@@ -215,21 +215,18 @@
               checkCollision( jellyfish, levelOneObjectTwo );
               checkDoor( level, jellyfish, door );
               
-             
-                 createjs.Tween.get(levelOneObjectOne,{loop:-1, bounce:true})
+              createjs.Tween.get(levelOneObjectOne,{loop:-1, bounce:true})
                     .to({x:350}, 1500, createjs.Ease.getPowInOut(3))
                     .wait(10)
                     .to({x:5}, 1500, createjs.Ease.linear);
                  
-                 createjs.Tween.get(levelOneObjectTwo,{loop:-1, bounce:true})
+              createjs.Tween.get(levelOneObjectTwo,{loop:-1, bounce:true})
                     .to({x:5}, 1500, createjs.Ease.getPowOut(3))
                     .wait(10)
                     .to({x:350}, 1500, createjs.Ease.getPowOut(3));
-            
-            
           }
           
-          if ( moveLevelTwoObjects )
+          else if ( moveLevelTwoObjects )
           {   
               checkCollision( jellyfish, levelTwoObjectOne );
               checkCollision( jellyfish, levelTwoObjectTwo );
@@ -237,21 +234,28 @@
               checkDoor( level, jellyfish, door );
              
              
-             createjs.Tween.get(levelTwoObjectOne,{loop:-1, bounce:true})
+              createjs.Tween.get(levelTwoObjectOne,{loop:-1, bounce:true})
                     .to({x:350}, 1500, createjs.Ease.linear)
                     .wait(10)
                     .to({x:5}, 1500, createjs.Ease.linear);
                  
-            createjs.Tween.get(levelTwoObjectTwo,{loop:-1, bounce:true})
+             createjs.Tween.get(levelTwoObjectTwo,{loop:-1, bounce:true})
                     .to({x:5}, 1500, createjs.Ease.linear)
                     .wait(10)
                     .to({x:350}, 1500, createjs.Ease.linear);
+              
              createjs.Tween.get(levelTwoObjectThree,{loop:-1, bounce:true})
                     .to({y:370}, 1500, createjs.Ease.linear)
                     .wait(10)
-                    .to({y:70}, 1500, createjs.Ease.linear);
-              
-              
+                    .to({y:70}, 1500, createjs.Ease.linear); 
+          }
+          
+          else if ( moveLevelThreeObjects )
+          {   
+              checkCollision( jellyfish, levelThreeObjectOne );
+              checkCollision( jellyfish, levelThreeObjectTwo );
+              checkCollision( jellyfish, levelThreeObjectThree );
+              checkDoor( level, jellyfish, door );
           }
       }
 
@@ -448,7 +452,7 @@
           app.stage.removeChild( jellyfish );
           
           // Level three text
-          levelThreeText = new PIXI.Text( 'LEVEL 3', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff } );
+          levelThreeText = new PIXI.Text( 'LEVEL 3', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000 } );
 
           // Position it and add it to the stage
           levelThreeText.position.set( 10, 10 );
@@ -552,6 +556,8 @@
           // sKey press method
           sKey.press = function() 
           {
+              checkWallCollision( jellyfish );
+              
               // Moves jellyfish downward
               jellyfish.vy = 3;
               jellyfish.vx = 0;
@@ -581,10 +587,19 @@
           }
       }
         
+      function checkWallCollision( jFish )
+      {
+         if ( jFish.y <= 20 || jFish.y >= 305 )
+         {
+              jFish.vx = 0;
+              jFish.vy = 0;
+         } 
+      }
+        
       function checkDoor( levelNumber, jFish , object )
       {   
-          if ( ( ( jFish.x <= object.x + 12 ) && ( jFish.x >= object.x - 12 ) ) 
-                 && ( ( jFish.y <= object.y + 12 ) && ( jFish.y >= object.y - 12 ) ) )
+          if ( ( ( jFish.x <= object.x + 16 ) && ( jFish.x >= object.x - 16 ) ) 
+                 && ( ( jFish.y <= object.y + 16 ) && ( jFish.y >= object.y - 16 ) ) )
           {
               if ( levelNumber == 1 )
               {
