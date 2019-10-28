@@ -630,11 +630,18 @@
         
       function endGame()
       {
+          app.stage.removeChild( levelThreeText );
+          app.stage.removeChild( levelThreeObjectOne );
+          app.stage.removeChild( levelThreeObjectTwo );
+          app.stage.removeChild( levelThreeObjectThree );
+          app.stage.removeChild( levelThreeObjectFour );
+          app.stage.removeChild( jellyfish );
+          
           // end game text
-          let endGameText = new PIXI.Text( 'CONGRATS! YOU HAVE MASTERED THE ART OF DODGING!', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000, visible: true } );
+          let endGameText = new PIXI.Text( 'CONGRATS! YOU HAVE MASTERED THE ART OF DODGING!', { fontFamily : 'sans-serif', fontSize: 14, fill : 0x000000, visible: true } );
 
           // Position it and add it to the stage
-          endGameText.position.set( 140, 150 );
+          endGameText.position.set( 10, 150 );
           app.stage.addChild( endGameText );
       }
         
