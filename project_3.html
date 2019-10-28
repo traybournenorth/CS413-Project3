@@ -345,7 +345,7 @@
               app.stage.removeChild( instructionsInfoText );
               app.stage.removeChild( menuText );
               app.stage.removeChild( moverTwo );
-              window.location.replace( "http://dana.ucc.nau.edu/tpn26/GroupProject/project_3.html" );
+              window.location.replace( "http://dana.ucc.nau.edu/tpn26/cs413/project_3.html" );
           };
       }
         
@@ -397,7 +397,7 @@
               app.stage.removeChild( creditInfoText );
               app.stage.removeChild( menuText );
               app.stage.removeChild( moverTwo );
-              window.location.replace( "http://dana.ucc.nau.edu/tpn26/GroupProject/project_3.html" );
+              window.location.replace( "http://dana.ucc.nau.edu/tpn26/cs413/project_3.html" );
           };
       }
         
@@ -476,15 +476,12 @@
           levelTwoObjectOne.animationSpeed = .04;
           levelTwoObjectOne.play();
          
-         
           levelTwoObjectOne.position.set( 5, 50 );
           app.stage.addChild( levelTwoObjectOne );
          
-        
           levelTwoObjectTwo = new PIXI.AnimatedSprite(puffFrames);
           levelTwoObjectTwo.animationSpeed = .04;
           levelTwoObjectTwo.play();
-         
          
           levelTwoObjectTwo.position.set( 350, 200 );
           app.stage.addChild( levelTwoObjectTwo );
@@ -523,9 +520,7 @@
           // Position it and add it to the stage
           levelThreeText.position.set( 10, 10 );
           app.stage.addChild( levelThreeText );
-          
-          // Resets jellyfish
-          jellyfish = new Sprite( resources[ "jellyfish.png" ].texture );          
+             
           jellyfish.position.set( 170, 300 );
           app.stage.addChild( jellyfish );
           
