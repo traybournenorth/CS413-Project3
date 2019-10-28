@@ -469,7 +469,7 @@
           app.stage.removeChild( jellyfish );
 
           // Level three text
-          levelThreeText = new PIXI.Text( 'LEVEL 3', { fontFamily : 'sans-serif', fontSize: 16, fill : 0xffffff } );
+          levelThreeText = new PIXI.Text( 'LEVEL 3', { fontFamily : 'sans-serif', fontSize: 16, fill : 0x000000 } );
 
           // Position it and add it to the stage
           levelThreeText.position.set( 10, 10 );
@@ -612,8 +612,8 @@
 
       function checkDoor( levelNumber, jFish , object )
       {
-          if ( ( ( jFish.x <= object.x + 15 ) && ( jFish.x >= object.x - 15 ) )
-                 && ( ( jFish.y <= object.y + 15 ) && ( jFish.y >= object.y - 15 ) ) )
+          if ( ( ( jFish.x <= object.x + 18 ) && ( jFish.x >= object.x - 18 ) )
+                 && ( ( jFish.y <= object.y + 18 ) && ( jFish.y >= object.y - 18 ) ) )
           {
               if ( levelNumber == 1 )
               {
